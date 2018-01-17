@@ -14,7 +14,7 @@ The benefits of using a global time to refer to local events are numerous, but m
 
 ## Example Clockface & Notation Cheatsheet
 
-For more information regarding the philosophy of this project, check out the [expanded documentation](.docs/original-documentation.md) and the dropdown menu below for a quick reference to the Earth Time clock face notation.
+For more information regarding the philosophy of this project, check out the [expanded documentation](docs/original-documentation.md) and the dropdown menu below for a quick reference to the Earth Time clock face notation.
 
 ![Earth Time Clockface](docs/mockup.png)
 
