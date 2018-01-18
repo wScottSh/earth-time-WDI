@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const ENV = require('./app-env');
+const googleClientKey = ENV.GOOGLE_CLIENT_ID;
+const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -42,5 +45,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log("server running on port 3000");
 
 module.exports = app;
