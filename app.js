@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
-// const User = require('./models/user');
+const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 
@@ -20,7 +20,6 @@ app.use(cookieParser());
 app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(app.router);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -86,8 +85,7 @@ app.get('/auth/google', passport.authenticate('google', { scope: "email" }));
 
 // <- Google
 app.get('/auth/google/callback',
-      passport.authenticate('google', { successRedirect: '/',
-                                          failureRedirect: '/' }));
+  passport.authenticate('google', { successRedirect: '/', failureRedirect: '/' }));
 
 // Logout
 app.get("/logout", function(req, res){
