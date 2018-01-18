@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 
+// from express generator
 const index = require('./routes/index');
 const users = require('./routes/users');
 
@@ -23,11 +24,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/public'));
-
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Setting up the Passport Strategies
@@ -49,14 +47,14 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://127.0.0.1:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-        //check user table for anyone with a facebook ID of profile.id
+        //check user table for anyone with a google ID of profile.id
         User.findOne({
-            'facebook.id': profile.id
+            'google.id': profile.id
         }, function(err, user) {
             if (err) {
                 return done(err);
             }
-            //No user was found... so create a new user with values from Facebook (all the profile. stuff)
+            //No user was found... so create a new user with values from Google (all the profile. stuff)
             if (!user) {
                 user = new User({
                     google: profile
