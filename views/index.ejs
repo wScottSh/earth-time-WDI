@@ -6,15 +6,15 @@
 <body>
   <h1>GOOGLE LOGIN USING PASSPORT</h1>
   <div>
-      {{#if user }}
+      <% if (user) { %>
         <h2> Below is the data sent by google</h2>
         <pre>
-          {{user.google}}
+          <%= user.google.id %>
         </pre>
         <a href="/logout">Logout</a>
-      {{else}}
+      <% } else { %>
         <a href="/auth/google">Login with Google</a>
-      {{/if}}
+      <% } %>
   </div>
 </body>
 </html>

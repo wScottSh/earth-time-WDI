@@ -10,10 +10,14 @@ const cookieParser = require('cookie-parser');
 const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
+const findOrCreate = require('mongoose-findorcreate');
 
 // from express generator
 const index = require('./routes/index');
 const users = require('./routes/users');
+
+// Mongoose Setup
+mongoose.connect('mongodb://localhost:27017/earth-time');
 
 // Middleware
 app.use(cookieParser());
@@ -33,8 +37,8 @@ const googleClientKey = ENV.GOOGLE_CLIENT_ID;
 const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-app.use('/', index);
-app.use('/users', users);
+// app.use('/', index);
+// app.use('/routes', users);
 
 // Use the GoogleStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -49,6 +53,7 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
         //check user table for anyone with a google ID of profile.id
         User.findOne({
+          // console.log("found a user");
             'google.id': profile.id
         }, function(err, user) {
             if (err) {
@@ -56,6 +61,7 @@ passport.use(new GoogleStrategy({
             }
             //No user was found... so create a new user with values from Google (all the profile. stuff)
             if (!user) {
+              // console.log('not founds oozer');
                 user = new User({
                     google: profile
                 });
@@ -88,10 +94,17 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { successRedirect: '/', failureRedirect: '/' }));
 
 // Logout
-app.get("/logout", function(req, res){
+app.get('/logout', function(req, res){
   req.logout();
   res.redirect("/")
 })
+
+// Home page
+app.get('/', function(req, res){
+  console.log(req.user);
+  res.render('index', {user: req.user});
+  // res.send('hello world')
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
