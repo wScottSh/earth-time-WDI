@@ -11,6 +11,8 @@
         <h2> Below is the data sent by google</h2>
         <pre>
           <%= user.google.id %>
+          <%= user.location.lat %>
+          <%= user.location.lng %>
         </pre>
         <a href="/logout">Logout</a>
       <% } else { %>
@@ -22,6 +24,7 @@
 
   </div>
 
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
 </body>
 </html>

@@ -62,9 +62,11 @@ passport.use(new GoogleStrategy({
             }
             //No user was found... so create a new user with values from Google (all the profile. stuff)
             if (!user) {
-              // console.log('not founds oozer');
+              console.log('not founds oozer');
                 user = new User({
-                    google: profile
+                    google: profile,
+                    'location.lat': 30.2672,
+                    'location.lng': 97.7431
                 });
                 user.save(function(err) {
                     if (err) console.log(err);
@@ -102,7 +104,7 @@ app.get('/logout', function(req, res){
 
 // Home page
 app.get('/', function(req, res){
-  console.log("The " + req.user);
+  console.log(req.user);
   res.render('index', {user: req.user});
   // res.send('hello world')
 });
