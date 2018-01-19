@@ -11,6 +11,7 @@ const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
+const locationForm = require('./public/javascripts/location');
 
 // from express generator
 const index = require('./routes/index');
