@@ -35,6 +35,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Setting up the Passport Strategies
 const googleClientKey = ENV.GOOGLE_CLIENT_ID;
 const googleClientSecret = ENV.GOOGLE_CLIENT_SECRET;
+const googleMapsKey = ENV.GOOGLE_MAPS_KEY;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // app.use('/', index);
@@ -101,7 +102,7 @@ app.get('/logout', function(req, res){
 
 // Home page
 app.get('/', function(req, res){
-  console.log(req.user);
+  console.log("The " + req.user);
   res.render('index', {user: req.user});
   // res.send('hello world')
 });

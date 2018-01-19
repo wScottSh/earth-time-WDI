@@ -8,6 +8,10 @@ const userSchema = new Schema({
 	    access_token: String,
 	    email: String
   	}
+	location: {
+		lat: Number,
+		lng: Number
+	}
 });
 
 module.exports = mongoose.model('User', userSchema);
