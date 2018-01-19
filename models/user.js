@@ -9,9 +9,6 @@ const userSchema = new Schema({
 	    email: String
   	},
 	location: {
-    // hard code in the location of Austin
-		// lat: 30.2672,
-		// lng: 97.7431
 		lat: Number,
 		lng: Number
 	}
