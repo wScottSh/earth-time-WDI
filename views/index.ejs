@@ -10,9 +10,9 @@
       <% if (user) { %>
         <h2> Below is the data sent by google</h2>
         <pre>
-          <%= user.google.id %>
-          <%= user.location.lat %>
-          <%= user.location.lng %>
+          <p>Google ID: <%= user.google.id %></p>
+          <p>Latitude: <%= user.location.lat %></p>
+          <p>Longitude: <%= user.location.lng %></p>
         </pre>
         <a href="/logout">Logout</a>
       <% } else { %>
