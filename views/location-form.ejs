@@ -1,17 +1,40 @@
-<button type="button" class="btn btn-primary" onclick="geolocate()">Pull Location</button>
+<button type="button" class="btn btn-primary" onclick="saveCity('error', geolocate)">Pull Location</button>
 
 <script>
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
-function geolocate() {
+const geolocate = () => {
+  // check to see if the browser has navigator.geolocation capabilities
   if (navigator.geolocation) {
+    // ping for current location. The parameter runs a function on location
     navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = {
+      // creates a new object called geolocation that stores the coordinates
+      const geolocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      console.log(geolocation);
+      console.log('Browser geolocation is: Lat: ' + geolocation.lat + ' Lng: ' + geolocation.lng);
+      // return that object for manipulation elsewhere
+      return geolocation
     });
+  }
+}
+
+// this function pings the browser for location and returns an object with lat/lng and city name
+const saveCity = (err, callback) => {
+ console.log(callback().lat);
+
+  if (callback) {
+    // console.log(callback);
+    const location = {
+      lat: geolocation.lat,
+      lng: geolocation.lng,
+      city: 'CITY NAME!'
+    }
+    console.log(location);
+    return location
+  } else {
+    console.log(err);
   }
 }
 
