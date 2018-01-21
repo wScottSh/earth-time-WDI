@@ -34,8 +34,6 @@ function TodaysEpochEarthTimeStamps () {
 
 const earthTimeEpoch = new TodaysEpochEarthTimeStamps()
 
-console.log(earthTimeEpoch);
-
 function EarthTimeConverter (epoch) {
   this.now = (epoch.now - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
   this.dayStart = (epoch.dayStart - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
@@ -47,4 +45,17 @@ function EarthTimeConverter (epoch) {
 
 const converter = new EarthTimeConverter(earthTimeEpoch)
 
-console.log(converter);
+const clockface = (obj) => {
+  console.log('@' + Math.round(obj.now));
+  if (obj.now > obj.dayStart && obj.now < obj.solarSight) {
+    console.log('*|@' + Math.round(obj.now) + '|@' + Math.round(obj.solarSight - obj.now) + '|^');
+  } else if (obj.now > obj.solarSight && obj.now < obj.solarNoon) {
+    console.log('^|@' + Math.round(obj.now - obj.solarSight) + '|@' + Math.round(obj.solarNoon - obj.now) + '|#');
+  } else if (obj.now > obj.solarNoon && obj.now < obj.solarClipse) {
+    console.log('#|@' + Math.round(obj.now - obj.solarNoon) + '|@' + Math.round(obj.solarClipse - obj.now) + '|-');
+  } else if (obj.now > obj.solarClipse && obj.now < obj.dayEnd) {
+    console.log('-|@' + Math.round(obj.now - obj.solarClipse) + '|@' + Math.round(obj.dayEnd - obj.now) + '|*');
+  }
+}
+
+clockface(converter)
