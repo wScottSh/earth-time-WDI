@@ -5,16 +5,41 @@ const app = express();
 
 console.log("main.js sanity check");
 
-const now = epoch.now(),
+const nowEpoch = epoch.now(),
       avgDay = 86400,
-      yesterday = now - avgDay,
-      tomorrow = now + avgDay,
-      solarTimes = SunCalc.getTimes(now, -48.876667, -123.393333)
+      today = epoch.toDate(nowEpoch),
+      yesterday = epoch.toDate(nowEpoch - avgDay),
+      tomorrow = epoch.toDate(nowEpoch + avgDay),
+      latitude = 30.2672,
+      longitude = -97.7431
 
-const moonPhase = SunCalc.getMoonIllumination(now)
+function CalcTimes (yester, tod, tom, lat, lng) {
+  this.sunsetYesterday = epoch.fromDate(SunCalc.getTimes(yester, lat, lng).sunset)
+  this.sunriseToday = epoch.fromDate(SunCalc.getTimes(tod, lat, lng).sunrise)
+  this.solarNoon = epoch.fromDate(SunCalc.getTimes(tod, lat, lng).solarNoon)
+  this.sunsetToday = epoch.fromDate(SunCalc.getTimes(tod, lat, lng).sunset)
+  this.sunriseTomorrow = epoch.fromDate(SunCalc.getTimes(tom, lat, lng).sunrise)
+}
 
-console.log(now);
-console.log(yesterday);
-console.log(tomorrow);
-console.log(solarTimes);
-console.log(moonPhase);
+const relevantTimes = new CalcTimes(yesterday, today, tomorrow, latitude, longitude)
+
+function TodaysEpochEarthTimeStamps () {
+  this.now = nowEpoch
+  this.dayStart = relevantTimes.sunriseToday - ((relevantTimes.sunriseToday - relevantTimes.sunsetYesterday) / 2)
+  this.solarSight = relevantTimes.sunriseToday
+  this.solarNoon = relevantTimes.solarNoon
+  this.solarClipse = relevantTimes.sunsetToday
+  this.dayEnd = relevantTimes.sunriseTomorrow - ((relevantTimes.sunriseTomorrow - relevantTimes.sunsetToday) / 2)
+}
+
+const earthTimeEpoch = new TodaysEpochEarthTimeStamps()
+
+console.log(earthTimeEpoch);
+
+function EarthTimeConverter () {
+
+}
+
+const converter = new EarthTimeConverter()
+
+console.log(converter);
