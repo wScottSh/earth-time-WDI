@@ -10,8 +10,8 @@ const nowEpoch = epoch.now(),
       today = epoch.toDate(nowEpoch),
       yesterday = epoch.toDate(nowEpoch - avgDay),
       tomorrow = epoch.toDate(nowEpoch + avgDay),
-      latitude = 30.2672,
-      longitude = -97.7431
+      latitude = -48.876667,
+      longitude = -123.393333
 
 function CalcTimes (yester, tod, tom, lat, lng) {
   this.sunsetYesterday = epoch.fromDate(SunCalc.getTimes(yester, lat, lng).sunset)
@@ -36,10 +36,15 @@ const earthTimeEpoch = new TodaysEpochEarthTimeStamps()
 
 console.log(earthTimeEpoch);
 
-function EarthTimeConverter () {
-
+function EarthTimeConverter (epoch) {
+  this.now = (epoch.now - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+  this.dayStart = (epoch.dayStart - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+  this.solarSight = (epoch.solarSight - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+  this.solarNoon = (epoch.solarNoon - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+  this.solarClipse = (epoch.solarClipse - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+  this.dayEnd = (epoch.dayEnd - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
 }
 
-const converter = new EarthTimeConverter()
+const converter = new EarthTimeConverter(earthTimeEpoch)
 
 console.log(converter);
