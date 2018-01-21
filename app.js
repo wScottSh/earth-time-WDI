@@ -11,7 +11,8 @@ const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
-const locationForm = require('./public/javascripts/location');
+// const locationForm = require('./public/javascripts/location');
+const earthTime = require('./public/javascripts/main')
 
 // from express generator
 const index = require('./routes/index');
@@ -61,9 +62,9 @@ passport.use(new GoogleStrategy({
             if (err) {
                 return done(err);
             }
-            //No user was found... so create a new user with values from Google (all the profile. stuff)
+            // console.log('No user was found... so create a new user with values from Google (all the profile. stuff)');
             if (!user) {
-              console.log('not founds oozer');
+              // console.log('not founds oozer');
                 user = new User({
                     google: profile,
                     'location.lat': 30.2672,
@@ -74,7 +75,7 @@ passport.use(new GoogleStrategy({
                     return done(err, user);
                 });
             } else {
-                //found user. Return
+                // console.log("found user. Return");
                 return done(err, user);
             }
         });

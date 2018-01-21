@@ -2,16 +2,22 @@ const express = require('express');
 const epoch = require('unix-timestamp');
 const SunCalc = require('suncalc');
 const app = express();
+const locator = require('./location')
 
-console.log("main.js sanity check");
+// console.log("main.js sanity check");
 
 const nowEpoch = epoch.now(),
       avgDay = 86400,
       today = epoch.toDate(nowEpoch),
       yesterday = epoch.toDate(nowEpoch - avgDay),
       tomorrow = epoch.toDate(nowEpoch + avgDay),
-      latitude = -48.876667,
-      longitude = -123.393333
+      originLat = -48.876667,
+      originLng = -123.393333
+
+let currentLat = originLat,
+    currentLng = originLng
+      // currentLat = originLat,
+      // currentLng = originLng
 
 function CalcTimes (yester, tod, tom, lat, lng) {
   this.sunsetYesterday = epoch.fromDate(SunCalc.getTimes(yester, lat, lng).sunset)
@@ -21,34 +27,43 @@ function CalcTimes (yester, tod, tom, lat, lng) {
   this.sunriseTomorrow = epoch.fromDate(SunCalc.getTimes(tom, lat, lng).sunrise)
 }
 
-const relevantTimes = new CalcTimes(yesterday, today, tomorrow, latitude, longitude)
+const originTimes = new CalcTimes(yesterday, today, tomorrow, originLat, originLng)
+const hereTimes = new CalcTimes(yesterday, today, tomorrow, currentLat, currentLng)
 
-function TodaysEpochEarthTimeStamps () {
+function EpochEarthTimeStamps (obj) {
   this.now = nowEpoch
-  this.dayStart = relevantTimes.sunriseToday - ((relevantTimes.sunriseToday - relevantTimes.sunsetYesterday) / 2)
-  this.solarSight = relevantTimes.sunriseToday
-  this.solarNoon = relevantTimes.solarNoon
-  this.solarClipse = relevantTimes.sunsetToday
-  this.dayEnd = relevantTimes.sunriseTomorrow - ((relevantTimes.sunriseTomorrow - relevantTimes.sunsetToday) / 2)
+  this.dayStart = obj.sunriseToday - ((obj.sunriseToday - obj.sunsetYesterday) / 2)
+  this.solarSight = obj.sunriseToday
+  this.solarNoon = obj.solarNoon
+  this.solarClipse = obj.sunsetToday
+  this.dayEnd = obj.sunriseTomorrow - ((obj.sunriseTomorrow - obj.sunsetToday) / 2)
 }
 
-const earthTimeEpoch = new TodaysEpochEarthTimeStamps()
+const originTimeEpoch = new EpochEarthTimeStamps(originTimes)
+const hereTimeEpoch = new EpochEarthTimeStamps(hereTimes)
+// console.log(originTimeEpoch);
+// console.log(hereTimeEpoch);
 
-function EarthTimeConverter (epoch) {
-  this.now = (epoch.now - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
-  this.dayStart = (epoch.dayStart - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
-  this.solarSight = (epoch.solarSight - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
-  this.solarNoon = (epoch.solarNoon - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
-  this.solarClipse = (epoch.solarClipse - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
-  this.dayEnd = (epoch.dayEnd - epoch.dayStart) / (epoch.dayEnd - epoch.dayStart) * 1000
+function EarthTimeConverter (originObj, hereObj) {
+  this.now = (originObj.now - originObj.dayStart) / (originObj.dayEnd - originObj.dayStart) * 1000;
+  // find the difference between origin.dayStart and here.dayStart. Save as delta. Add to all numbers.
+  this.delta = (hereObj.dayStart - originObj.dayStart);
+  this.dayStart = ((hereObj.dayStart + this.delta - hereObj.dayStart) / (hereObj.dayEnd - hereObj.dayStart) * 1000)
+  this.solarSight = ((hereObj.solarSight + this.delta - hereObj.dayStart) / (hereObj.dayEnd - hereObj.dayStart) * 1000)
+  this.solarNoon = ((hereObj.solarNoon + this.delta - hereObj.dayStart) / (hereObj.dayEnd - hereObj.dayStart) * 1000)
+  this.solarClipse = ((hereObj.solarClipse + this.delta - hereObj.dayStart) / (hereObj.dayEnd - hereObj.dayStart) * 1000)
+  this.dayEnd = ((hereObj.dayEnd + this.delta - hereObj.dayStart) / (hereObj.dayEnd - hereObj.dayStart) * 1000)
 }
 
-const converter = new EarthTimeConverter(earthTimeEpoch)
+const hereConverter = new EarthTimeConverter(originTimeEpoch, hereTimeEpoch)
+// console.log(hereConverter);
+// const hereConverter = new EarthTimeConverter(hereTimeEpoch)originObj
 
 const clockface = (obj) => {
+  console.log('Earth Time at: ' + currentLat + ', ' + currentLng);
   console.log('@' + Math.round(obj.now));
-  if (obj.now > obj.dayStart && obj.now < obj.solarSight) {
-    console.log('*|@' + Math.round(obj.now) + '|@' + Math.round(obj.solarSight - obj.now) + '|^');
+  if (obj.now > (obj.dayStart) && obj.now < obj.solarSight) {
+    console.log('*|@' + Math.round(obj.now - obj.dayStart) + '|@' + Math.round(obj.solarSight - obj.now) + '|^');
   } else if (obj.now > obj.solarSight && obj.now < obj.solarNoon) {
     console.log('^|@' + Math.round(obj.now - obj.solarSight) + '|@' + Math.round(obj.solarNoon - obj.now) + '|#');
   } else if (obj.now > obj.solarNoon && obj.now < obj.solarClipse) {
@@ -56,6 +71,15 @@ const clockface = (obj) => {
   } else if (obj.now > obj.solarClipse && obj.now < obj.dayEnd) {
     console.log('-|@' + Math.round(obj.now - obj.solarClipse) + '|@' + Math.round(obj.dayEnd - obj.now) + '|*');
   }
+  console.log('*' + Math.round((obj.dayStart + 1000) % 1000));
+  console.log('^' + Math.round((obj.solarSight + 1000) % 1000));
+  console.log('#' + Math.round((obj.solarNoon + 1000) % 1000));
+  console.log('-' + Math.round((obj.solarClipse + 1000) % 1000));
+  console.log('*' + Math.round((obj.dayEnd + 1000) % 1000));
 }
 
-clockface(converter)
+// clockface(originConverter)
+module.exports.EarthTimeLat = currentLat
+module.exports.EarthTimeLng = currentLng
+module.exports.EarthTimeObj = hereConverter
+module.exports.EarthTimePretty = clockface(hereConverter)
