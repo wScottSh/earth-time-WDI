@@ -5,12 +5,16 @@ const app = express();
 
 console.log("main.js sanity check");
 
-const now = epoch.now()
-const yesterday = Date()
-const times = SunCalc.getTimes(now, -48.876667, -123.393333)
+const now = epoch.now(),
+      avgDay = 86400,
+      yesterday = now - avgDay,
+      tomorrow = now + avgDay,
+      solarTimes = SunCalc.getTimes(now, -48.876667, -123.393333)
 
 const moonPhase = SunCalc.getMoonIllumination(now)
 
 console.log(now);
-console.log(times);
+console.log(yesterday);
+console.log(tomorrow);
+console.log(solarTimes);
 console.log(moonPhase);
