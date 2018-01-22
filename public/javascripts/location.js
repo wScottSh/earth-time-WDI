@@ -3,7 +3,7 @@ let longitude = -123.393333
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
-const geolocate = () => {
+const geolocate = (callback) => {
   // check to see if the browser has navigator.geolocation capabilities
   if (navigator.geolocation) {
     // ping for current location. The parameter runs a function on location
@@ -20,6 +20,7 @@ const geolocate = () => {
       return geolocation
     });
   }
+  callback()
 }
 
 module.exports.Latitude = latitude
