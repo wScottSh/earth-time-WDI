@@ -11,8 +11,15 @@ const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
-// const locationForm = require('./public/javascripts/location');
+const geolocator = require('./public/javascripts/location');
 const earthTime = require('./public/javascripts/main')
+
+const Lat = geolocator.Latitude;
+const Lng = geolocator.Longitude;
+// console.log('test line');
+// console.log(geolocator);
+// console.log(Lat);
+// console.log(Lng);
 
 // from express generator
 const index = require('./routes/index');
@@ -67,8 +74,8 @@ passport.use(new GoogleStrategy({
               // console.log('not founds oozer');
                 user = new User({
                     google: profile,
-                    'location.lat': 30.2672,
-                    'location.lng': 97.7431
+                    'location.lat': Lat,
+                    'location.lng': Lng
                 });
                 user.save(function(err) {
                     if (err) console.log(err);

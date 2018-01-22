@@ -14,10 +14,21 @@ const nowEpoch = epoch.now(),
       originLat = -48.876667,
       originLng = -123.393333
 
-let currentLat = originLat,
-    currentLng = originLng
-      // currentLat = originLat,
-      // currentLng = originLng
+// Origin
+// let currentLat = originLat
+// let currentLng = originLng
+
+// Austin
+let currentLat = 30.2672
+let currentLng = -97.7431
+
+// Salem
+// let currentLat = 44.966162
+// let currentLng = -122.962778
+
+// Greenland
+// let currentLat = 77.221300
+// let currentLng = -41.876450
 
 function CalcTimes (yester, tod, tom, lat, lng) {
   this.sunsetYesterday = epoch.fromDate(SunCalc.getTimes(yester, lat, lng).sunset)
