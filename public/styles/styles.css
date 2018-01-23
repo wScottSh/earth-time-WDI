@@ -1,8 +1,28 @@
-#bigcontainer {
+#wholething {
+  position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  top: 0px;
+  width: 100%;
+  bottom: 0vh;
+}
+
+#title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   /* align-items: center; */
+}
+
+#clockface {
+  margin-bottom: 10%;
 }
 
 #timebar {
@@ -28,7 +48,8 @@ h3 {
 }
 
 h4 {
-  font-size: 6em;
+  font-size: 4em;
+  text-align: center;
 }
 
 .relatives {
