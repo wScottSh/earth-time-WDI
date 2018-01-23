@@ -93,4 +93,5 @@ const clockface = (obj) => {
 module.exports.RawBeats = hereConverter
 module.exports.Lat = currentLat
 module.exports.Lng = currentLng
-// module.exports.EarthTime = clockface(hereConverter)
+
+clockface(hereConverter)

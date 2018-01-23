@@ -26,5 +26,9 @@ const geolocate = (callback) => {
 //  this is the ajax request using jquery
 const updateDb = () => {
   console.log('Attempting to update the user profile');
-  // send lat/lng as
+  // send lat/lng
+  $.post( "/", function( data ) {
+  // $( ".result" ).html( data );
+  console.log(data);
+  });
 }

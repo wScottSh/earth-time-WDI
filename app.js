@@ -12,6 +12,7 @@ const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
 const converter = require('./converter');
+const router = express.Router();
 
 // Global Lat/Lng variables
 const Lat = converter.Lat
@@ -23,6 +24,16 @@ console.log(Now);
 // from express generator
 const index = require('./routes/index');
 const users = require('./routes/users');
+// const earthtime = require('./routes/time-api');
+app.use('/api', router);
+
+router.get('/', function(req, res) {
+  res.json({ message: 'hooray! welcome to our api!' });
+});
+
+router.get('/earthtime', function(req, res) {
+  res.json({ message: 'earthtime yo!' });
+});
 
 // Mongoose Setup
 mongoose.connect('mongodb://localhost:27017/earth-time');
@@ -112,7 +123,7 @@ app.get('/logout', function(req, res){
 
 // Home page
 app.get('/', function(req, res){
-  console.log(req.user);
+  // console.log(req.user);
   res.render('index', {user: req.user});
   // res.send('hello world')
 });
