@@ -4,7 +4,7 @@
   <title>Earth Time</title>
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 </head>
-<body onload="geolocate()">
+<body onload="geolocate(updateDb)">
   <h1>GOOGLE LOGIN USING PASSPORT</h1>
   <div>
       <% if (user) { %>
@@ -18,6 +18,10 @@
       <% } else { %>
         <a href="/auth/google">Login with Google</a>
       <% } %>
+  </div>
+
+  <div class="">
+    <p>Add the Earth Time Clockface here</p>
   </div>
 
   <div class="">

@@ -17,11 +17,14 @@ const geolocate = (callback) => {
       // return that object for manipulation elsewhere
       latitude = geolocation.lat
       longitude = geolocation.lng
+      callback()
       return geolocation
     });
   }
-  callback()
 }
 
-module.exports.Latitude = latitude
-module.exports.Longitude = longitude
+//  this is the ajax request using jquery
+const updateDb = () => {
+  console.log('Attempting to update the user profile');
+  // send lat/lng as
+}

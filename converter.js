@@ -2,7 +2,8 @@ const express = require('express');
 const epoch = require('unix-timestamp');
 const SunCalc = require('suncalc');
 const app = express();
-const locator = require('./location')
+const appJs = require('./app');
+// const locator = require('./location')
 
 // console.log("main.js sanity check");
 
@@ -89,8 +90,7 @@ const clockface = (obj) => {
   console.log('*' + Math.round((obj.dayEnd + 1000) % 1000));
 }
 
-// clockface(originConverter)
-module.exports.EarthTimeLat = currentLat
-module.exports.EarthTimeLng = currentLng
-module.exports.EarthTimeObj = hereConverter
-module.exports.EarthTimePretty = clockface(hereConverter)
+module.exports.RawBeats = hereConverter
+module.exports.Lat = currentLat
+module.exports.Lng = currentLng
+// module.exports.EarthTime = clockface(hereConverter)

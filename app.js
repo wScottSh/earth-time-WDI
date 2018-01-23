@@ -11,15 +11,14 @@ const User = require('./models/user');
 const favicon = require('serve-favicon');
 const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
-const geolocator = require('./public/javascripts/location');
-const earthTime = require('./public/javascripts/main')
+const converter = require('./converter');
 
-const Lat = geolocator.Latitude;
-const Lng = geolocator.Longitude;
-// console.log('test line');
-// console.log(geolocator);
-// console.log(Lat);
-// console.log(Lng);
+// Global Lat/Lng variables
+const Lat = converter.Lat
+const Lng = converter.Lng
+
+const Now = converter.RawBeats
+console.log(Now);
 
 // from express generator
 const index = require('./routes/index');
