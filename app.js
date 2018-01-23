@@ -19,20 +19,23 @@ const Lat = converter.Lat
 const Lng = converter.Lng
 
 const Now = converter.RawBeats
-console.log(Now);
+// console.log(Now);
 
 // from express generator
 const index = require('./routes/index');
 const users = require('./routes/users');
-// const earthtime = require('./routes/time-api');
+
+// sets the api default to always be prefixed with /api
 app.use('/api', router);
 
+// default api text
 router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
+// this contains the API with the Earth Time object
 router.get('/earthtime', function(req, res) {
-  res.json({ message: 'earthtime yo!' });
+  res.json(Now);
 });
 
 // Mongoose Setup
