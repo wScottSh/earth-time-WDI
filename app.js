@@ -13,13 +13,14 @@ const ENV = require('./app-env');
 const findOrCreate = require('mongoose-findorcreate');
 const converter = require('./converter');
 const router = express.Router();
+// const db = require('/models');
 
 // Global Lat/Lng variables
 const Lat = converter.Lat
 const Lng = converter.Lng
 
-const Now = converter.RawBeats
-// console.log(Now);
+const earthtimeJson = converter.RawBeats
+// console.log(earthtimeJson);
 
 // from express generator
 const index = require('./routes/index');
@@ -35,8 +36,20 @@ router.get('/', function(req, res) {
 
 // this contains the API with the Earth Time object
 router.get('/earthtime', function(req, res) {
-  res.json(Now);
+  res.json(earthtimeJson);
 });
+
+// render on views
+// app.get('/', (req, res) => {
+//   res.render('index', {
+//     beats: earthtimeJson,
+//     user: false
+//   })
+// })
+
+router.get('/users', function(req, res) {
+  res.json(users);
+})
 
 // Mongoose Setup
 mongoose.connect('mongodb://localhost:27017/earth-time');
@@ -125,11 +138,18 @@ app.get('/logout', function(req, res){
 })
 
 // Home page
-app.get('/', function(req, res){
-  // console.log(req.user);
-  res.render('index', {user: req.user});
-  // res.send('hello world')
-});
+app.get('/', (req, res) => {
+  res.render('index', {
+    beats: earthtimeJson,
+    user: req.user
+  })
+})
+
+// update database route
+app.put('/user/:id', (req, res) => {
+  console.log(req.body);
+  res.sendStatus(200)
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

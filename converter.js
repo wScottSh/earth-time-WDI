@@ -71,27 +71,30 @@ const hereConverter = new EarthTimeConverter(originTimeEpoch, hereTimeEpoch)
 // console.log(hereConverter);
 // const hereConverter = new EarthTimeConverter(hereTimeEpoch)originObj
 
-const clockface = (obj) => {
-  console.log('Earth Time at: ' + currentLat + ', ' + currentLng);
-  console.log('@' + Math.round(obj.now));
+function clockface (obj) {
+  this.location = 'Earth Time at: ' + currentLat + ', ' + currentLng
+  this.globalNow = '@' + Math.round(obj.now)
   if (obj.now > (obj.dayStart) && obj.now < obj.solarSight) {
-    console.log('*|@' + Math.round(obj.now - obj.dayStart) + '|@' + Math.round(obj.solarSight - obj.now) + '|^');
+    this.localNow = '*|@' + Math.round(obj.now - obj.dayStart) + '|@' + Math.round(obj.solarSight - obj.now) + '|^'
   } else if (obj.now > obj.solarSight && obj.now < obj.solarNoon) {
-    console.log('^|@' + Math.round(obj.now - obj.solarSight) + '|@' + Math.round(obj.solarNoon - obj.now) + '|#');
+    this.localNow = '^|@' + Math.round(obj.now - obj.solarSight) + '|@' + Math.round(obj.solarNoon - obj.now) + '|#'
   } else if (obj.now > obj.solarNoon && obj.now < obj.solarClipse) {
-    console.log('#|@' + Math.round(obj.now - obj.solarNoon) + '|@' + Math.round(obj.solarClipse - obj.now) + '|-');
+    this.localNow = '#|@' + Math.round(obj.now - obj.solarNoon) + '|@' + Math.round(obj.solarClipse - obj.now) + '|-'
   } else if (obj.now > obj.solarClipse && obj.now < obj.dayEnd) {
-    console.log('-|@' + Math.round(obj.now - obj.solarClipse) + '|@' + Math.round(obj.dayEnd - obj.now) + '|*');
+    this.localNow = '-|@' + Math.round(obj.now - obj.solarClipse) + '|@' + Math.round(obj.dayEnd - obj.now) + '|*'
   }
-  console.log('*' + Math.round((obj.dayStart + 1000) % 1000));
-  console.log('^' + Math.round((obj.solarSight + 1000) % 1000));
-  console.log('#' + Math.round((obj.solarNoon + 1000) % 1000));
-  console.log('-' + Math.round((obj.solarClipse + 1000) % 1000));
-  console.log('*' + Math.round((obj.dayEnd + 1000) % 1000));
+  this.dayStart = '*' + Math.round((obj.dayStart + 1000) % 1000)
+  this.sunSight = '^' + Math.round((obj.solarSight + 1000) % 1000)
+  this.solarNoon = '#' + Math.round((obj.solarNoon + 1000) % 1000)
+  this.sunClipse = '-' + Math.round((obj.solarClipse + 1000) % 1000)
+  this.dayEnd = '*' + Math.round((obj.dayEnd + 1000) % 1000)
 }
 
-module.exports.RawBeats = hereConverter
+const jsonClockface = new clockface(hereConverter)
+
+module.exports.RawBeats = jsonClockface
 module.exports.Lat = currentLat
 module.exports.Lng = currentLng
+module.exports.clockface = clockface
 
-clockface(hereConverter)
+// clockface(hereConverter)

@@ -2,27 +2,38 @@
 <html>
 <head>
   <title>Earth Time</title>
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body onload="geolocate(updateDb)">
-  <h1>GOOGLE LOGIN USING PASSPORT</h1>
-  <div>
-      <% if (user) { %>
-        <h2> Below is the data sent by google</h2>
-        <pre>
-          <p>Google ID: <%= user.google.id %></p>
-          <p>Latitude: <%= user.location.lat %></p>
-          <p>Longitude: <%= user.location.lng %></p>
-        </pre>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/auth/google">Login with Google</a>
-      <% } %>
+
+  <h4>Earth Time</h4>
+
+  <div id="bigcontainer">
+    <div id="clockface">
+      <h1 id="beats" class="center"><%= beats.globalNow %></h1>
+      <h2 id="realtive-beats" class="center"><%= beats.localNow %></h2>
+    </div>
+    <div id="timebar">
+      <h3 id="daystart" class="relatives"><%= beats.dayStart %></h3>
+      <h3 id="sunSight" class="relatives"><%= beats.sunSight %></h3>
+      <h3 id="solarNoon" class="relatives"><%= beats.solarNoon %></h3>
+      <h3 id="sunClipse" class="relatives"><%= beats.sunClipse %></h3>
+      <h3 id="dayEnd" class="relatives"><%= beats.dayEnd %></h3>
+    </div>
   </div>
 
-  <div id="clockface">
-    <p>Add the Earth Time Clockface here</p>
-  </div>
+  <div>
+    <% if (user) { %>
+      <pre>
+        <p>Logged in as: <%= user.google.id %></p>
+        <p><%= beats.location %></p>
+      </pre>
+      <a href="/logout">Logout</a>
+      <% } else { %>
+        <a href="/auth/google">Login with Google</a>
+        <% } %>
+      </div>
 
   <div class="">
     <% include ../views/location-form %>

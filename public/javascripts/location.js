@@ -27,8 +27,13 @@ const geolocate = (callback) => {
 const updateDb = () => {
   console.log('Attempting to update the user profile');
   // send lat/lng
-  $.post( "/", function( data ) {
-  // $( ".result" ).html( data );
-  console.log(data);
-  });
+  $.ajax({
+  url: '/user/:id',
+  type: 'PUT',
+  data: {latitude: latitude,
+         longitude: longitude},
+  success: function(data) {
+    console.log('Load was performed.');
+  }
+});
 }
