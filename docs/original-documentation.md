@@ -8,10 +8,7 @@ My hope is that this balanced holistic view of time notation will simultaneously
 
 ## Example Clockface & Notation Cheatsheet
 
-![Earth Time Clockface](images/EarthTime-Clockface.jpg)
-
-<details>
-<summary>Dropdown for 'Earth Time Notation Cheatsheet'</summary>
+![Earth Time Clockface](EarthTime-Clockface.jpg)
 
 Name | Notation | Example | Explanation
 --- | --- | --- | ---
@@ -36,8 +33,6 @@ Mid-Southward Equinox | `mse` | `mse` = `:319` in `!2015` | The halfway point be
 Relative Time Mark | `\|` | `^\|@52\|`<br>`\|@20\|@`<br>`:\|:30\|`<br>`\|:19\|mss`<br>`@\|!1:15@32\|`<br>`:159\|:5\|` | 52 beats after sunrise<br>20 beats before current time<br>30 days after current day<br>19 days before mid-southern solstice<br>1 year, 15 days, 32 beats from now<br>5 days after my birthday (the 159th day)
 Absolute Time | | `!2015:287@008` | Year: 2015<br>Day: 287<br>Beat: 008
 Time Duration | `%` | `@53%`<br>`:16%`<br>`!12%`<br>`!27:157%` | 53 beats long<br>16 days long<br>12 years long<br>My current age
-
-</details>
 
 ### Time Read From Solar Events
 
