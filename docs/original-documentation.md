@@ -132,7 +132,7 @@ The benefits of using a global time to refer to local events are numerous, but m
 Let’s look at the clock face and see how these global times are represented to be understood quickly and simply, no matter your location on the earth. This is only one example of how to place emphasis on local pertinent time, while still using global values to notate the time.
 
 ## Clock-face Breakdown
-![Earth Time Clockface](images/EarthTime-Clockface.jpg)
+![Earth Time Clockface](EarthTime-Clockface.jpg)
 
 In this example, the clock-face has been loaded with as much information as possible. It's a little overwhelming at first, but becomes easier to understand as familiarity with the notation increases. Clock-faces can be simplified to any level of detail desired.
 
